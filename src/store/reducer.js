@@ -1,4 +1,4 @@
-import {CHANGE_INPUT_VALUE , ADD_TODO_ITEM , DELETE_TODO_ITEM} from './actionTypes'
+import {CHANGE_INPUT_VALUE , ADD_TODO_ITEM , DELETE_TODO_ITEM ,GET_INIT_LIST} from './actionTypes'
 
 const defaultState={
     inputValue : '',
@@ -20,6 +20,8 @@ export default (state = defaultState , action) => {
         const newState = JSON.parse(JSON.stringify(state));
         newState.list.splice(action.value,1);
         return newState;
+    }else if(action.type === GET_INIT_LIST){
+        
     }
 
     return state;

@@ -1,8 +1,9 @@
-import React ,{ Component, Fragment}from 'react';
+import React ,{ Component}from 'react';
 import 'antd/dist/antd.css';
 import store from './store/index';
-import {getInputChangeAction, getAddItemAction ,deleteItemAction} from './store/actionCreators'
-import ToDoListUI from './ToDoListUI'
+import {getInputChangeAction, getAddItemAction, deleteItemAction, getTodoList, initListAction, getInitList} from './store/actionCreators';
+import ToDoListUI from './ToDoListUI';
+import axios from 'axios';
 
 class TodoList extends Component{
   constructor(props){
@@ -12,7 +13,6 @@ class TodoList extends Component{
     this.handleStoreChange = this.handleStoreChange.bind(this);
     this.handlebuttonClick = this.handlebuttonClick.bind(this);
     this.handleItemDelete = this.handleItemDelete.bind(this);
-
     store.subscribe(this.handleStoreChange); //當Store有改變時，執行此函數
   }
 
@@ -27,7 +27,21 @@ class TodoList extends Component{
       />
     )
   }
-  
+
+  componentDidMount(){
+  //    axios.get('./list').than((res)=>{   //異步執行寫法一
+  //           const data = res.data;
+  //          const action = initListAction(data);
+  //          store.dispatch(action)
+  //    });
+
+  //    const action = getTodoList(); //異步寫法二 thunk
+  //    store.dispatch(action); //當action被dispatch調用時，如果store發現action是函數時則會馬上被執行
+       
+        const action = getInitList(); //異步寫法三 saga
+        store.dispatch(action);
+  } 
+
   handleInputChange(e){
     const action = getInputChangeAction(e.target.value)    
     store.dispatch(action); 
@@ -43,7 +57,6 @@ class TodoList extends Component{
   }
 
   handleItemDelete(index){
-    console.log(index);
     const action = deleteItemAction(index)
     store.dispatch(action);
   }
