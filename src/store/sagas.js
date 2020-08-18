@@ -5,7 +5,7 @@ import axios from 'axios';
 
 function* getInitList() {
   try{
-    const res = yield axios.get('./list');
+    const res = yield axios.get('./list'); //yield方法執行後會暫停住，此處表示在AJAX取得資料前都會被yield在這
     const action = initListAction(res.data);
     yield put(action);
   }catch(err){
